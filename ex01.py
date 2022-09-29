@@ -1,5 +1,7 @@
 from hashlib import new
+from platform import node
 from traceback import print_last
+from turtle import Turtle
 
 
 class Node:
@@ -37,6 +39,17 @@ class SlinkedList:
     def insertAtEnd(self, val):
         self.head = self.insertAtEnd_proc(self.head, val)
     
+    def search_proc(self, node, val):
+        if node == None:
+            return False
+        if node.data == val:
+            return True
+        else:
+            return self.search_proc(node.next, val)
+        return True
+    
+    def search(self, val):
+        print(self.search_proc(self.head, val)) # ture false
     
 e1 = Node('A')
 e2 = Node('B')
@@ -48,6 +61,10 @@ Slink.insertAtEnd('A')
 Slink.insertAtEnd('B')
 Slink.insertAtEnd('C')
 Slink.printList(Slink.head)
+# Slink.search('E')
+# Slink.search('A')
+# Slink.search('B')
+# Slink.search('C')
 # Slink.head = e1
 # Slink.head.next = e2
 # Slink.head.next.next = e3

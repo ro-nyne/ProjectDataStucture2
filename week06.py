@@ -1,4 +1,4 @@
-# Double LinkedList
+# Doubly LinkedList
 
 class Node():
     def __init__(self, val):

@@ -45,3 +45,52 @@ class Dlist:
         self.printList_proc(self.head)
         # self.printListRev_proc(self.Head)
         
+    def search_proc(self, node, val):
+        if node == None:
+            return False
+        elif node.data == val:
+            return True
+        else:
+            return self.search_proc(node.next, val)
+    
+    def search(self, val):
+        self.search_proc(self.Head, val)
+        
+    def searchIndex_proc(self, node, val, index = -1):
+        if node == None:
+            return -1
+        elif node.data == val:
+            return index+1
+        else:
+            return self.searchIndex_proc(node.next, val, index+1)
+    
+    def searchIndex(self, val):
+        return self.searchIndex_proc(self.Head, val)
+    
+    def delete_proc(self, node, val):
+        if node == None:
+            pass
+        elif node.data == val:
+            if node.next != None and node.prev != None:
+                node.next.prev = node.prev
+                node.prev.next = node.next
+                tmp = node
+                node = node.next
+                tmp = None
+            elif node.next == None and node.prev == None:
+                node = None
+            elif node.next == None:
+                node = None
+            elif node.prev == None:
+                tmp = node
+                node = node.next
+                tmp = None
+        else:
+            node.next = self.delete_proc(node.next, val)
+        return node
+    
+    def delete(self, val):
+        if self.searchIndex(val) == -1:
+            print('not found')
+        else:
+            self.Head = self.delete_proc(self.Head, val)

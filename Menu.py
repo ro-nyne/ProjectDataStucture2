@@ -15,9 +15,11 @@ class Menu:
         self.show_main_menu()
         
     def removetxt(self, value):
+        ''' remove \n from text '''
         return ''.join(value.splitlines())
     
     def readFile(self):
+        ''' read file and insert in Doubly Likedlist '''
         file = open(self.file_name, "r+")
         file_content = file.readlines()
         
@@ -26,6 +28,7 @@ class Menu:
         # self.node.printList()
         
     def show_main_menu(self):
+        ''' show all menu in console '''
         self.node.printList()
         print("\n   *** Phone Book Menu ***\n"+
             "------------------------------------------\n"+
@@ -50,12 +53,13 @@ class Menu:
             self.search_contact_record()
             self.show_main_menu()
         elif choice== "4":
-            print("Thanks for using Phone Book Program")
+            print("Thanks for using ....")
         else:
             print("Wrong choice, Please Enter [1 to 4]\n")
             self.show_main_menu()
         
     def search_contact_record(self):
+        ''' search contact from name '''
         search_name = input("Enter First name for Searching contact record: ")
 
         search_name = search_name.title()
@@ -73,6 +77,7 @@ class Menu:
             print("There's no contact Record in Phone Book with name = " + search_name )
 
     def enter_contact_record(self):
+        ''' add contact '''
         first = input('Enter First Name: ')
         first = first.title()
         last = input('Enter Last Name: ')

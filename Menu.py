@@ -1,9 +1,13 @@
+from Data import Data
+from Node import Dlist
+
 class Menu:
     
     def __init__(self):
         self.file_name = "D:\SouceCode\Python\ProjectDataStucture2\phonebook.txt"
         file1 = open(self.file_name, "a+")
         file1.close
+        self.node = Dlist()
         self.show_main_menu()
         
     def show_main_menu(self):
@@ -26,7 +30,7 @@ class Menu:
             ent = input("Press Enter to continue ...")
             self.show_main_menu()
         elif choice == "2":
-            self.enter_contact_record()
+            self.enter_contact_record(self.node)
             ent = input("Press Enter to continue ...")
             self.show_main_menu()
         elif choice == "3":
@@ -58,16 +62,22 @@ class Menu:
         if  found == False:
             print("There's no contact Record in Phone Book with name = " + search_name )
 
-    def enter_contact_record(self):
+    def enter_contact_record(self, node):
         ''' It  collects contact info firstname, last name, email and phone '''
     
         first = input('Enter First Name: ')
         first = first.title()
         last = input('Enter Last Name: ')
         last = last.title()
+        adrs = input('Enter Adress: ')
         phone = input('Enter Phone number: ')
         email = input('Enter E-mail: ')
-        contact = ("[" + first + " " + last + ", " + phone + ", " + email +  "]\n")
+        contact = ("[" + first + " " + last + ", " + adrs + ", " + phone + ", " + email +  "]\n")
         file1 = open(self.file_name, "a")
         file1.write(contact)
+        
+        self.node.insertAtEnd(Data(first+" "+last, adrs, phone, email))
+        self.node.printList()
         print( "This contact\n " + contact + "has been added successfully!")
+        
+Menu()

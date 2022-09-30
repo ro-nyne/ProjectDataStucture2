@@ -1,7 +1,3 @@
-from cmath import pi
-from types import NoneType
-
-
 class Bstree:
     def __init__(self, data = None):
         self.data = data

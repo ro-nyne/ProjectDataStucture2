@@ -1,0 +1,1 @@
+# Collect name, adress, phone number, e-mail

@@ -8,3 +8,10 @@
 - เรียงรายชื่อ (sort)
 - ค้นหารายชื่อ, ที่อยู่, เบอร์โทรติดต่อ, อีเมล (search)
 - ประวัติการโทรติดต่อ (linkedlist)
+
+- [ ] Create class 
+- [ ] Feature add members
+- [ ] Feature remove members
+- [ ] Feature sort list
+- [ ] Feature search list
+- [ ] Feature history call

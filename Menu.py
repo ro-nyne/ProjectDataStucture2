@@ -1,4 +1,3 @@
-from asyncore import read
 from Data import Data
 from Node import Dlist
 
@@ -7,6 +6,7 @@ file_name = "D:\SouceCode\Python\ProjectDataStucture2\phonebook.txt"
 class Menu:
     
     def __init__(self):
+        ''' this function will activate when call this class '''
         self.file_name = file_name
         file1 = open(self.file_name, "a+")
         file1.close
@@ -27,7 +27,6 @@ class Menu:
         
     def show_main_menu(self):
         self.node.printList()
-        ''' Show main menu for Phone Book Program '''
         print("\n   *** Phone Book Menu ***\n"+
             "------------------------------------------\n"+
             "Enter 1 To Display all contact\n" +
@@ -57,7 +56,6 @@ class Menu:
             self.show_main_menu()
         
     def search_contact_record(self):
-        ''' This function is used to searches a specific contact record '''
         search_name = input("Enter First name for Searching contact record: ")
 
         search_name = search_name.title()
@@ -75,8 +73,6 @@ class Menu:
             print("There's no contact Record in Phone Book with name = " + search_name )
 
     def enter_contact_record(self):
-        ''' It  collects contact info firstname, last name, email and phone '''
-    
         first = input('Enter First Name: ')
         first = first.title()
         last = input('Enter Last Name: ')

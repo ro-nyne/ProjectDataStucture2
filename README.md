@@ -11,7 +11,8 @@
 
 ## Task lists
 - [x] Create class
-- [ ] Read file and collect in linkedlist
+- [x] Read file and collect in linkedlist
+- [ ] Write file with linkedlist
 - [ ] Feature add members
 - [ ] Feature remove members
 - [ ] Feature sort list

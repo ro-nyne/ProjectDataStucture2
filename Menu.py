@@ -1,5 +1,5 @@
 from Data import Data
-from Node import Dlist
+from DoublyLinkedList import Dlist
 
 file_name = "D:\SouceCode\Python\ProjectDataStucture2\phonebook.txt"
 
@@ -12,7 +12,8 @@ class Menu:
         file1.close
         self.node = Dlist()
         self.readFile()
-        self.show_main_menu()
+        self.search()
+        # self.show_main_menu()
         
     def removetxt(self, value):
         ''' remove \n from text '''
@@ -70,11 +71,23 @@ class Menu:
         for line in file_contents:
             if search_name in line:
                 print("Your Required Contact Record is:", end=" ")
-                print (line)
+                print (self.removetxt(line))
                 found=True
+                return line
                 break
         if  found == False:
             print("There's no contact Record in Phone Book with name = " + search_name )
+            return '\n'
+    
+    def search(self):
+        
+        name = self.search_contact_record()
+        print(self.removetxt(name))
+        value1 = self.node.search(self.removetxt(name))
+        for line in self.node:
+            if name == line:
+                print(line)
+                break
 
     def enter_contact_record(self):
         ''' add contact '''
@@ -84,13 +97,21 @@ class Menu:
         last = last.title()
         adrs = input('Enter Adress: ')
         phone = input('Enter Phone number: ')
-        email = input('Enter E-mail: ')
+        email = input('Enter E-mail Adress: ')
+        
         contact = ("[" + first + " " + last + ", " + adrs + ", " + phone + ", " + email +  "]\n")
         self.node.insertAtEnd(Data(first+" "+last, adrs, phone, email))
         file1 = open(self.file_name, "a")
         file1.write(contact)
         
+        # Add to Doubly Likedlist
         self.node.insertAtEnd(Data(first+" "+last, adrs, phone, email))
         print( "This contact\n " + contact + "has been added successfully!")
+        
+    def remove_contact_record(self):
+        ''' remove contact '''
+        search_name = input("Enter First name for remove: ")
+        
+        search_name = search_name.title()
         
 m1 = Menu()

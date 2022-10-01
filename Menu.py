@@ -1,5 +1,3 @@
-from platform import node
-from unicodedata import name
 from Data import Data
 from DoublyLinkedList import Dlist, Node
 
@@ -52,7 +50,8 @@ class Menu:
             "\tEnter 2 To Add a New Contact\n"+
             "\tEnter 3 To Search your contacts\n"+
             "\tEnter 4 To Quit\n"+
-            "\tEnter 5 To Delete all contact\n\n---------------------------------------------------\n")
+            "\tEnter 5 To Delete all contact\n"+
+            "\tEnter 6 To Delete contect\n\n---------------------------------------------------\n")
         choice = input("Enter your choice: ")
         if choice == "1":
             if self.dlist.is_empty():
@@ -71,27 +70,36 @@ class Menu:
         elif choice == "5":
             self.remove_all_contact()
             self.show_main_menu()
+        elif choice == "6":
+            self.remove_contact()
+            self.show_main_menu()
+        # elif choice == "7":
+        #     self.display_all_node(self.dlist.head)
+        #     self.show_main_menu()
         else:
             print("Wrong choice, Please Enter [1 to 4]\n")
             self.show_main_menu()
             
     def display_all_node(self, node):
         if node is None:
-            return
+            return None
         else:
             print(node.data)
             self.display_all_node(node.next)
             
     def search_contact(self):
-        search_name = input("Enter First name for searching contact record: ")
-        search_name = search_name.title()
-        val_name = self.search_in_listnode(search_name)
-        
-        if val_name is None:
-            print("There's no contact Record in Phone Book with name = " + search_name)
+        if self.dlist.is_empty() != True:
+            search_name = input("Enter First name for searching contact record: ")
+            search_name = search_name.title()
+            val_name = self.search_in_listnode(search_name)
+            
+            if val_name is None:
+                print("There's no contact Record in Phone Book with name = " + search_name)
+            else:
+                print("Your Required Contact Record is:", end=" ")
+                print(val_name)
         else:
-            print("Your Required Contact Record is:", end=" ")
-            print(val_name)
+            print('Phone book is empty now.')
     
     def search_in_file(self, val: str):
         val = val.title()
@@ -104,19 +112,22 @@ class Menu:
                 return self.remove_ln(list[0])
             
     def search_in_listnode_proc(self, node, val):
-        if node is None:
-            return None
-        else:
-            if node.data.name == val:
-                return node.data
-            elif node.data.name != val:
-                return self.search_in_listnode_proc(node.next, val)
-            else:
+            if node is None:
                 return None
+            else:
+                if node.data.name == val:
+                    return node.data
+                elif node.data.name != val:
+                    return self.search_in_listnode_proc(node.next, val)
+                else:
+                    return None
             
     def search_in_listnode(self, val):
-        val = self.search_in_file(val)
-        return self.search_in_listnode_proc(self.dlist.head, val)
+        if self.dlist.is_empty() != True:
+            val = self.search_in_file(val)
+            return self.search_in_listnode_proc(self.dlist.head, val)
+        else:
+            print('List empty now.')
             
     def enter_contact_record(self):
         '''
@@ -134,12 +145,11 @@ class Menu:
         
         contact_data = Data(first+" "+last, adrs, phone, email)
         ## Write in text file
-        self.dlist.insert_at_tail(repr(contact_data))
         file1 = open(self.file_name, "a")
         file1.write(repr(contact_data)+'\n')
         ## Add to Doubly Likedlist
-        self.dlist.insert_at_tail(Data(first+" "+last, adrs, phone, email))
-        print( "This contact\n " + str(contact_data) + " ..has been added successfully!")
+        self.dlist.insert_at_tail(contact_data)
+        print( "This contact\n-> " + str(contact_data) + " ..has been added successfully!")
         
     def is_num_check(self, val):
         '''
@@ -158,23 +168,53 @@ class Menu:
         '''
         remove contact
         '''
-        search_name = input("Enter First name for remove: ")
-        contact_data = self.search_in_listnode(search_name)
+        if self.dlist.is_empty() != True:
+            search_name = input("Enter First name for delete: ")
+            contact_data = self.search_in_listnode(search_name)
 
-        if contact_data != None:
-            self.dlist.remove_data(contact_data)
+            val = search_name.title()
+            with open(self.file_name, "r+") as file:
+                file_contents = file.readlines()
+            for line in file_contents:
+                if val in line:
+                    file_want_to_replace = line
+                
+            if contact_data != None:
+                self.dlist.remove_data(contact_data)
+                self.inplace_change(self.file_name, file_want_to_replace, '')
+                print(self.dlist.print_list())
+                print('Delete contact successfully!...')
+            else:
+                print('Does not match with data base')
+        else:
+            print('Phone book is empty now.')
             
     def remove_all_contact(self):
-        lenght_node = self.dlist.get_length()
-        for i in range(lenght_node):
-            self.dlist.remove_at_tail()
-            
-        file = open(self.file_name, 'w')
-        file.seek(0)
-        file.write('')
-        file.truncate()
-        print('Delete all contact successfullt!...')
-            
+        if self.dlist.is_empty() != True:
+            lenght_node = self.dlist.get_length()
+            for i in range(lenght_node):
+                self.dlist.remove_at_tail()
+                
+            file = open(self.file_name, 'w')
+            file.seek(0)
+            file.write('')
+            file.truncate()
+            print('Delete all contact successfully!!...')
+        else:
+            print('Phone book is empty now.')
+    
+    def inplace_change(self, filename, old_string, new_string):
+        with open(filename) as f:
+            s = f.read()
+            if old_string not in s:
+                print('"{old_string}" not found in {filename}.'.format(**locals()))
+                return
+
+        with open(filename, 'w') as f:
+            print('Changing "{old_string}" to "{new_string}" in {filename}'.format(**locals()))
+            s = s.replace(old_string, new_string)
+            f.write(s)
+           
     def edit_contact(self):
         '''
         Edit infonation from old data

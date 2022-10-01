@@ -16,8 +16,8 @@
 - [x] Search in list node by name
 - [x] Feature add contact
 - [x] Display all contact
-- [ ] Feature remove members
+- [x] Feature remove members
 - [x] Feature remove all contact
-- [ ] Feature sort list
 - [x] Feature search contact
 - [ ] Feature edit member from old data in node
+- [ ] Feature sort list

@@ -9,11 +9,15 @@
 - ค้นหารายชื่อ, ที่อยู่, เบอร์โทรติดต่อ, อีเมล (search)
 ```
 
-## Task lists
+## Task Lists
 - [x] Create class
 - [x] Read file and collect in linkedlist
-- [x] Write file with linkedlist
-- [x] Feature add members
+- [x] Write file with linked list
+- [x] Search in list node by name
+- [x] Feature add contact
+- [x] Display all contact
 - [ ] Feature remove members
+- [x] Feature remove all contact
 - [ ] Feature sort list
-- [ ] Feature search list
+- [x] Feature search contact
+- [ ] Feature edit member from old data in node

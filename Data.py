@@ -1,4 +1,6 @@
-# Collect name, adress, phone number, e-mail
+'''
+This class is meant to store detailed information such as Name, Address, Telephone Number, E-mail adress.
+'''
 class Data(object): # defind collecter class to collect data
     
     def __init__(self, name, adrs, tel, email) -> None:

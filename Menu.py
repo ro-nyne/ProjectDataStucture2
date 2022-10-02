@@ -14,18 +14,12 @@ class Menu:
         file1.close
         self.dlist = Dlist()
         self.read_file()
-        # self.print_somthing()
         self.show_main_menu()
-
-    def remove_ln(self, value = '\n'):
-        '''
-        Removes 'new line' from text.
-        '''
-        return ''.join(value.splitlines())
     
     def read_file(self):
         '''
-        Reads file and keep in list.
+        Reads file and store in linked list. If the file is empty will do
+        nothng.
         '''
         file = open(self.file_name, "r+")
         file_content = file.readlines()
@@ -36,13 +30,10 @@ class Menu:
                 self.dlist.insert_at_tail(Data(list[0], list[1], list[2], self.remove_ln(list[3])))
             else:
                 return
-    
-    def print_somthing(self):
-        self.remove_all_contact()
                     
     def show_main_menu(self):
         '''
-        Display menu to do somthing.
+        Display all menu.
         '''
         print("\n================= Phone Book Menu =================\n"+
             "\n---------------------------------------------------\n"+
@@ -55,7 +46,7 @@ class Menu:
         choice = input("Enter your choice: ")
         if choice == "1":
             if self.dlist.is_empty():
-                print("\nPhone Book is empty\nAdd new contact enter >> 2 <<")
+                print("\n\tPhone Book is empty...\n")
             else:
                 self.display_all_node(self.dlist.head)
             self.show_main_menu()
@@ -66,7 +57,7 @@ class Menu:
             self.search_contact()
             self.show_main_menu()
         elif choice== "4":
-            print("Thanks for using ....\n")
+            print("\nThanks for using.... see you next time.\n")
         elif choice == "5":
             self.remove_all_contact()
             self.show_main_menu()
@@ -74,13 +65,16 @@ class Menu:
             self.remove_contact()
             self.show_main_menu()
         # elif choice == "7":
-        #     self.display_all_node(self.dlist.head)
+        #     self.print_somthing()
         #     self.show_main_menu()
         else:
-            print("Wrong choice, Please Enter [1 to 4]\n")
+            print("\nWrong choice, Please Enter [1 to 4]\n")
             self.show_main_menu()
             
     def display_all_node(self, node):
+        '''
+        Display all node
+        '''
         if node is None:
             return None
         else:
@@ -88,8 +82,11 @@ class Menu:
             self.display_all_node(node.next)
             
     def search_contact(self):
+        '''
+        Search contact by fisrt name.
+        '''
         if self.dlist.is_empty() != True:
-            search_name = input("Enter First name for searching contact record: ")
+            search_name = input("Enter First name for searching contact Record: ")
             search_name = search_name.title()
             val_name = self.search_in_listnode(search_name)
             
@@ -99,7 +96,7 @@ class Menu:
                 print("Your Required Contact Record is:", end=" ")
                 print(val_name)
         else:
-            print('Phone book is empty now.')
+            print('\nPhone Book is empty now...\n')
     
     def search_in_file(self, val: str):
         val = val.title()
@@ -127,11 +124,11 @@ class Menu:
             val = self.search_in_file(val)
             return self.search_in_listnode_proc(self.dlist.head, val)
         else:
-            print('List empty now.')
+            print('\nPhone Book is empty now...\n')
             
     def enter_contact_record(self):
         '''
-        add contact
+        Adds new contact.
         '''
         first = input('Enter First Name: ')
         first = first.title()
@@ -144,32 +141,20 @@ class Menu:
         email = input('Enter E-mail Adress: ')
         
         contact_data = Data(first+" "+last, adrs, phone, email)
-        ## Write in text file
+        # Write in text file
         file1 = open(self.file_name, "a")
         file1.write(repr(contact_data)+'\n')
-        ## Add to Doubly Likedlist
+        # Add to Doubly Likedlist
         self.dlist.insert_at_tail(contact_data)
-        print( "This contact\n-> " + str(contact_data) + " ..has been added successfully!")
+        print( "This contact\n-> " + str(contact_data) + " *** has been added successfully!")
         
-    def is_num_check(self, val):
-        '''
-        Cheack values is numeric or not.
-        '''
-        while True:
-            if val.isnumeric():
-                return val
-            else:
-                print("That does not contian with number. Please enter again.")
-                retype = input('Enter Phone number: ')
-                val = self.is_num_check(retype)
-                return val
 
     def remove_contact(self):
         '''
-        remove contact
+        Delete one of contacts.
         '''
         if self.dlist.is_empty() != True:
-            search_name = input("Enter First name for delete: ")
+            search_name = input("Enter First name for delete contact Record: ")
             contact_data = self.search_in_listnode(search_name)
 
             val = search_name.title()
@@ -183,13 +168,16 @@ class Menu:
                 self.dlist.remove_data(contact_data)
                 self.inplace_change(self.file_name, file_want_to_replace, '')
                 print(self.dlist.print_list())
-                print('Delete contact successfully!...')
+                print('Delete contact Record successfully!...')
             else:
-                print('Does not match with data base')
+                print('Does not match with contact Record.')
         else:
-            print('Phone book is empty now.')
+            print('\nPhone book is empty now...\n')
             
     def remove_all_contact(self):
+        '''
+        Delete all of contacts.
+        '''
         if self.dlist.is_empty() != True:
             lenght_node = self.dlist.get_length()
             for i in range(lenght_node):
@@ -199,11 +187,27 @@ class Menu:
             file.seek(0)
             file.write('')
             file.truncate()
-            print('Delete all contact successfully!!...')
+            print('\nDelete all contact successfully!!...\n')
         else:
-            print('Phone book is empty now.')
+            print('\nPhone book is empty now...\n')
+
+    def is_num_check(self, val):
+        '''
+        Cheack values is numeric or not.
+        '''
+        while True:
+            if val.isnumeric():
+                return val
+            else:
+                print("Does not contian with number. Please enter again.")
+                retype = input('Enter Phone number: ')
+                val = self.is_num_check(retype)
+                return val
     
     def inplace_change(self, filename, old_string, new_string):
+        '''
+        Replace text in file.txt
+        '''
         with open(filename) as f:
             s = f.read()
             if old_string not in s:
@@ -214,25 +218,26 @@ class Menu:
             print('Changing "{old_string}" to "{new_string}" in {filename}'.format(**locals()))
             s = s.replace(old_string, new_string)
             f.write(s)
-           
-    def edit_contact(self):
-        '''
-        Edit infonation from old data
-        '''
-        edit_name = input('Enter First Name you want to Edit: ')
-        edit_name = edit_name.title()
-        
-        contact_data = self.search_in_file(edit_name)
-        if contact_data != None:
-            contact_data = self.dlist.find(contact_data)
-        else:
-            print(edit_name +' does not match in Phone book.')
-        
+            
     def phone_format(self, val):
         '''
         Format phone number like 98-435-8456
         '''
-        return '+' + format(int(val[:-1]), ",").replace(",", "-") + val[-1]
-
-
+        if len(str(val)) <= 1:
+            return val
+        else:
+            return '+' + format(int(val[:-1]), ",").replace(",", "-") + val[-1]
+            
+    def remove_ln(self, value = '\n'):
+        '''
+        Removes 'new line' from text.
+        '''
+        return ''.join(value.splitlines())
+    
+    # def print_somthing(self):
+    #     self.dlist.bubble_sort_node('asc')
+    #     self.dlist.print_list()
+    #     self.dlist.bubble_sort_node('desc')
+    #     self.dlist.print_list()
+        
 m1 = Menu()

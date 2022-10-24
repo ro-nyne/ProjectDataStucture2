@@ -28,15 +28,21 @@ def delete():
     removeContactWin()
 
 def enter():
-    en_inAndDel.delete(0, END)
     data = en_inAndDel.get()
-    if(menu.search_bool(data)):
-        textValue = str(menu.search_in_listnode(data))
-        label_tree.delete(1.0, END)
-        label_tree.insert(END, textValue)
+    if(en_inAndDel.index(END) != 0):
+        if(menu.search_bool(data)):
+            textValue = menu.search_in_listnode(data)
+            label_tree.delete(1.0, END)
+            label_tree.insert(END, textValue)
+        else:
+            label_tree.delete(1.0, END)
+            messagebox.showwarning('WARNING!', 'Does not match in PhoneBook.')
     else:
         label_tree.delete(1.0, END)
-        label_tree.insert(END, "Does not match in Phone Book.")
+        messagebox.showwarning('WARNING!','Please enter information.')
+    
+    en_inAndDel.delete(0, END)
+        
 
 def exit():
     window.quit()
@@ -47,18 +53,18 @@ def addContactWin():
     master.title("Add Contact Record.")
     def addContact():
         if(e1.index(END) == 0 or e2.index(END) == 0 or e3.index(END) == 0 or e4.index(END) == 0 or e4.index(END) == 0):
-            messagebox.showerror('Warning!', 'Please enter infomation.')
+            messagebox.showwarning('WARNING!', 'Please enter information.')
         else:
             if(menu.is_num_check(e4.get()) and len(str(e4.get())) == 10):
-                res = messagebox.askquestion('Warning', 'Are you sure?')
+                res = messagebox.askquestion('ASK QUESTION.', 'Are You Sure?')
                 if res == 'yes':
                     menu.enter_contact_record(str(e1.get()), str(e2.get()), e3.get(), e4.get(), e5.get())
-                    messagebox.showinfo('Response', 'Add contact successful.')
+                    messagebox.showinfo('RESPONES.', 'Add contact successful.')
                     master.destroy()
                 elif res == 'no':
-                    messagebox.showwarning('error', 'Something went wrong!')
+                    messagebox.showwarning('WARNING!', 'Please enter correct information.')
             else:
-                messagebox.showwarning('Waring!', 'Phone number is not number or number is less than reality.')
+                messagebox.showwarning('WARNING!', 'Phone number is not number or number is less than reality.')
  
     # this will create a label widget
     l1 = Label(master, text = "First name:")
@@ -171,7 +177,7 @@ en_inAndDel.place(x=80,y=430,width=350)
 
 ## Show display
 scorebarry = Scrollbar(window,orient=VERTICAL)
-label_tree = tk.Text(window,yscrollcommand=scorebarry.set,bg="black",bd=0,fg="white",font="supermarket 16")
+label_tree = tk.Text(window,yscrollcommand=scorebarry.set,bg="black",bd=0,fg="white",font=("supermarket 16", 10))
 label_tree.place(x=85, y=180, width=428, height=207)
 
 

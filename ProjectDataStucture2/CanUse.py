@@ -1,7 +1,8 @@
-from Data import Data
-from DoublyLinkedList import Dlist, Node
+from turtle import Turtle
+from .Data import Data
+from .DoublyLinkedList import Dlist, Node
 
-file_name = "D:\SouceCode\Python\ProjectDataStucture2\phonebook.txt"
+file_name = "D:\SouceCode\Python\Project Data05-2\ProjectDataStucture2\phonebook.txt"
 
 class Menu:
     
@@ -30,16 +31,26 @@ class Menu:
             else:
                 return
             
-    def display_all_node(self):
+    def display_all_node(self, node):
         '''
         Display all node
         '''
-        node = self.dlist.head
-        if node is None:
-            return None
-        else:
-            print(node.data)
-            self.display_all_node(node.next)
+        return self.dlist.__str__()
+    
+    def show_all_data(self, node):
+        file = open(self.file_name, "r+")
+        file_content = file.readlines()
+        data_list = []
+        
+        for line in file_content:
+            if line != None:
+                list = line.split(', ')
+                data_list.append(Data(list[0], list[1], list[2], self.remove_ln(list[3])))
+            else:
+                return
+        
+        return data_list
+            
 
     def search_contact(self):
         '''
@@ -84,21 +95,21 @@ class Menu:
             val = self.search_in_file(val)
             return self.search_in_listnode_proc(self.dlist.head, val)
         else:
-            print('\nPhone Book is empty now...\n')
+            return
+        
+    def search_bool(self, val):
+        if (self.search_in_file(val) != None):
+            return True
+        else:
+            return False
 
-    def enter_contact_record(self):
+    def enter_contact_record(self, first, last, adrs, phone, email):
         '''
         Adds new contact.
         '''
-        first = input('Enter First Name: ')
         first = first.title()
-        last = input('Enter Last Name: ')
         last = last.title()
-        adrs = input('Enter Adress: ')
-        phone = input('Enter Phone number: ')
-        phone = self.is_num_check(phone)
         phone = self.phone_format(phone)
-        email = input('Enter E-mail Adress: ')
         
         contact_data = Data(first+" "+last, adrs, phone, email)
         # Write in text file
@@ -109,12 +120,11 @@ class Menu:
         print( "This contact\n-> " + str(contact_data) + " *** has been added successfully!")
         
 
-    def remove_contact(self):
+    def remove_contact(self, search_name):
         '''
         Delete one of contacts.
         '''
         if self.dlist.is_empty() != True:
-            search_name = input("Enter First name for delete contact Record: ")
             contact_data = self.search_in_listnode(search_name)
 
             val = search_name.title()
@@ -157,12 +167,9 @@ class Menu:
         '''
         while True:
             if val.isnumeric():
-                return val
+                return True
             else:
-                print("Does not contian with number. Please enter again.")
-                retype = input('Enter Phone number: ')
-                val = self.is_num_check(retype)
-                return val
+                return False
     
     def inplace_change(self, filename, old_string, new_string):
         '''

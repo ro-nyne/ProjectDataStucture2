@@ -80,7 +80,7 @@ class Menu:
         else:
             print(node.data)
             self.display_all_node(node.next)
-            
+#------------------------- Search --------------------------
     def search_contact(self):
         '''
         Search contact by fisrt name.
@@ -125,7 +125,7 @@ class Menu:
             return self.search_in_listnode_proc(self.dlist.head, val)
         else:
             print('\nPhone Book is empty now...\n')
-            
+#-------------------------------------------------------------  
     def enter_contact_record(self):
         '''
         Adds new contact.
